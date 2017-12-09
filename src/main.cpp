@@ -4,15 +4,33 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-int main(int argc, char* args[])
+Uint32 get_pixel32( SDL_Surface *surface, int x, int y )
 {
-	//窗口指针
-	SDL_Window* window = NULL;
-	
-	//窗口所含有的屏幕
-	SDL_Surface* screenSurface = NULL;
+    //转换像素为32位
+    Uint32 *pixels = (Uint32 *)surface->pixels;
+    
+    //获取请求的像素
+    return pixels[ ( y * surface->w ) + x ];
+}
+ 
+void put_pixel32( SDL_Surface *surface, int x, int y, Uint32 pixel )
+{
+    //转换像素为32位
+    Uint32 *pixels = (Uint32 *)surface->pixels;
+    
+    //设置像素
+    pixels[ ( y * surface->w ) + x ] = pixel;
+}
 
-	//初始化SDL
+//窗口指针
+SDL_Window* window = NULL;
+//窗口所含有的屏幕
+SDL_Surface* screenSurface = NULL;
+
+bool init()
+{
+	bool success = true;
+		//初始化SDL
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
@@ -29,20 +47,44 @@ int main(int argc, char* args[])
 		{
 			//获得surface
 			screenSurface = SDL_GetWindowSurface( window );
-
-			//把surface填充为白色
-			SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
-			
-			//更新surface
-			SDL_UpdateWindowSurface( window );
-
-			//等待两秒钟
-			SDL_Delay( 2000 );
 		}
+	}
+	return success;
+}
+
+int main(int argc, char* args[])
+{
+
+	if(init())
+	{
+		bool quit = false;
+		SDL_Event e;
+
+		while(!quit)
+		{
+			while(SDL_PollEvent(&e)!=0)
+			{
+				if(e.type == SDL_QUIT)
+				{
+					quit = true;
+				}
+			}
+			for(int i = 0;i<300;i++)
+			{
+				for(int j = 0;j<100;j++)
+				{
+					put_pixel32(screenSurface,i,j,100);
+				}
+			}
+			SDL_UpdateWindowSurface(window);
+		}
+	}
+	else{
+		printf("失败\n");
 	}
 
 	//摧毁窗口
-	SDL_DestroyWindow( window );
+	SDL_DestroyWindow(window);
 
 	//退出SDL
 	SDL_Quit();
