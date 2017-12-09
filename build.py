@@ -3,8 +3,8 @@ import sys
 import shutil
 
 #PROJECT CONFIG
-projectName = 'Codeic'
-authorName = 'AaronRobert'
+projectName = 'Game'
+authorName = 'Zhuojiaoyang'
 buildProjectName = 'CodeicBuildTool 1.1'
 
 #MAKE CONFIG
@@ -15,8 +15,8 @@ COMPILER = 'g++.exe'
 BUILD_DIR = './build'
 OUTPUT = './build/output'
 INTERMEDIATE = './build/intermediate'
-BIN = 'Codeic.exe'
-SRC = './Codeic'
+BIN = 'Game.exe'
+SRC = './src'
 ADDITION_COMMAND = '-DDEBUG'
 
 def createDir():
