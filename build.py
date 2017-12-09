@@ -4,7 +4,7 @@ import shutil
 
 #PROJECT CONFIG
 projectName = 'Game'
-authorName = 'Zhuojiaoyang'
+authorName = 'AaronRobert,Zhuojiaoyang'
 buildProjectName = 'CodeicBuildTool 1.1'
 
 #MAKE CONFIG
@@ -18,6 +18,7 @@ INTERMEDIATE = './build/intermediate'
 BIN = 'Game.exe'
 SRC = './src'
 ADDITION_COMMAND = '-DDEBUG'
+SDL_COMMAND = '-I.\sdllib\include\SDL2 -L.\sdllib\lib -w -Wl,-subsystem,windows -lmingw32 -lSDL2main -lSDL2'
 
 def createDir():
     if not os.path.exists(OUTPUT):
@@ -49,7 +50,7 @@ def genMakeFileContent(list):
     content[-1] = content[-1][:-2]
     content.append('\n')
     # Append first command
-    content.append('%s:$(OBJ)\n\t%s -o %s/%s $(OBJ)\n\n' % (BIN,COMPILER,OUTPUT,BIN))
+    content.append('%s:$(OBJ)\n\t%s $(OBJ) %s -o %s/%s\n\n' % (BIN,COMPILER,SDL_COMMAND,OUTPUT,BIN))
     # Append complie obj file command
     id = 0
     for codeFile in list:
@@ -60,7 +61,7 @@ def genMakeFileContent(list):
 
 def getTempFilePath(sourceFilePath,id):
     path = '%s\%s' % (INTERMEDIATE,''.join(sourceFilePath.replace(SRC,'').split('\\')[0:-1]))
-    result = '%s\\temp_%d.o' % (path,id)
+    result = '%stemp_%d.o' % (path,id)
     if not os.path.exists(path):
         os.makedirs(path)
     return result
