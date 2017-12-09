@@ -7,5 +7,5 @@ OBJ = \
 Game.exe:$(OBJ)
 	g++.exe $(OBJ) -I.\sdllib\include\SDL2 -L.\sdllib\lib -w -Wl,-subsystem,windows -lmingw32 -lSDL2main -lSDL2 -o ./build/output/Game.exe
 
-./build/intermediate\temp_0.o:./src\01_hello_SDL.cpp
-	g++.exe -DDEBUG -c ./src\01_hello_SDL.cpp -o ./build/intermediate\temp_0.o
+./build/intermediate\temp_0.o:./src\main.cpp
+	g++.exe -DDEBUG -c ./src\main.cpp -o ./build/intermediate\temp_0.o

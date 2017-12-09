@@ -1,55 +1,50 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2015)
-and may not be redistributed without written permission.*/
+#include "main.h"
 
-//Using SDL and standard IO
-#include "..\sdllib\include\SDL2\SDL.h"
-#include <stdio.h>
-
-//Screen dimension constants
+//窗口信息
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-int main( int argc, char* args[] )
+int main(int argc, char* args[])
 {
-	//The window we'll be rendering to
+	//窗口指针
 	SDL_Window* window = NULL;
 	
-	//The surface contained by the window
+	//窗口所含有的屏幕
 	SDL_Surface* screenSurface = NULL;
 
-	//Initialize SDL
+	//初始化SDL
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
 	}
 	else
 	{
-		//Create window
-		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		//创建窗口
+		window = SDL_CreateWindow( "Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( window == NULL )
 		{
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
 		}
 		else
 		{
-			//Get window surface
+			//获得surface
 			screenSurface = SDL_GetWindowSurface( window );
 
-			//Fill the surface white
+			//把surface填充为白色
 			SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
 			
-			//Update the surface
+			//更新surface
 			SDL_UpdateWindowSurface( window );
 
-			//Wait two seconds
+			//等待两秒钟
 			SDL_Delay( 2000 );
 		}
 	}
 
-	//Destroy window
+	//摧毁窗口
 	SDL_DestroyWindow( window );
 
-	//Quit SDL subsystems
+	//退出SDL
 	SDL_Quit();
 
 	return 0;
